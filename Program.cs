@@ -10,7 +10,7 @@ namespace HigherLower
         static readonly List<Card> chosencards = new List<Card>();
         static string lh;
         static int choose;
-        static int bank = 1000;
+        static int bank = 25;
         static int bet;
 
         static void Main()
@@ -80,7 +80,11 @@ namespace HigherLower
             HiLo();
             Console.WriteLine("You have {0:C} in cash.", bank);
 
-            BankCheck();
+            if (bank <= 0)
+            {
+                Console.WriteLine("You lost all your money. GAME OVER.");
+                System.Environment.Exit(0);
+            }
 
             Again();
         }
@@ -208,6 +212,10 @@ namespace HigherLower
                     case 25:
                     case 50:
                     case 100:
+                        if (BankCheck() == true)
+                        {
+                            BankBets();
+                        }
                         bet = choose;
                         break;
                     default:
@@ -217,13 +225,14 @@ namespace HigherLower
                 }
             }
         }
-        static void BankCheck()
+        static bool BankCheck()
         {
-            if (bank <= 0)
+            if (choose > bank)
             {
-                Console.WriteLine("You lost all your money. GAME OVER.");
-                System.Environment.Exit(0);
+                Console.WriteLine("Enough money, you can't bet this amount");
+                return true;
             }
+            return false;
         }
     }
 }
