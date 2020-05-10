@@ -10,6 +10,7 @@ namespace HigherLower
         static readonly List<Card> chosencards = new List<Card>();
         static string lh;
         static int choose;
+        static int Bank = 1000;
 
         static void Main()
         {
@@ -57,12 +58,18 @@ namespace HigherLower
         static void Game()
         {
             Console.WriteLine("Welcome in my Higher/Lower Game\n");
-            Console.WriteLine("Rules: \n You receive 3 cards from the deck, you choose one of cards and you have to type if next draw card is higer or lower than yours");
+            Console.WriteLine("Rules: \nYou receive 3 cards from the deck, \nyou choose one of cards and you have to type if next draw card is higher or lower than yours");
             Console.WriteLine("\nIf you choose correctly, you win, if not - you lose!\n");
 
+            Console.WriteLine("There is a one more thing. You have 1000 fake dollars and you can bet to make yourself rich!");
+            Console.WriteLine("It's simple - you can beat 1, 5, 25, 50, 100 dollars - input your bet:");
+
+            BankBets();
             NewDeck();
             Shuffler();
 
+            Console.WriteLine("\nPress enter to show three cards:\n");
+            Console.ReadLine();
             Console.WriteLine("1: {0} {1}", chosencards[1].Name, chosencards[1].Suit);
             Console.WriteLine("2: {0} {1}", chosencards[2].Name, chosencards[2].Suit);
             Console.WriteLine("3: {0} {1}", chosencards[3].Name, chosencards[3].Suit);
@@ -70,7 +77,7 @@ namespace HigherLower
             CardChoose();
 
             HiLo();
-            
+
             Again();
         }
         static void Again()
@@ -116,10 +123,10 @@ namespace HigherLower
                     {
                         if (chosencards[choose].Value < chosencards[4].Value)
                         {
-                            Console.WriteLine("BRAWO! Card {0} is lower than card {1}, you won!", chosencards[choose].Value, chosencards[4].Value);
+                            Console.WriteLine("BRAWO! Card {0} is lower than card {1}, you won!", chosencards[choose].Name, chosencards[4].Name);
                         }
                         else
-                            Console.WriteLine("Unfortunately, card {0} is not lower than card {1}, you lose!", chosencards[choose].Value, chosencards[4].Value);
+                            Console.WriteLine("Unfortunately, card {0} is not lower than card {1}, you lose!", chosencards[choose].Name, chosencards[4].Name);
                         break;
                     }
                 case "Higher":
@@ -130,10 +137,10 @@ namespace HigherLower
                     {
                         if (chosencards[choose].Value > chosencards[4].Value)
                         {
-                            Console.WriteLine("BRAWO! Card {0} is higher than card {1}, you won!", chosencards[choose].Value, chosencards[4].Value);
+                            Console.WriteLine("BRAWO! Card {0} is higher than card {1}, you won!", chosencards[choose].Name, chosencards[4].Name);
                         }
                         else
-                            Console.WriteLine("Unfortunately, card {0} is not higher than {1}, you lose!", chosencards[choose].Value, chosencards[4].Value);
+                            Console.WriteLine("Unfortunately, card {0} is not higher than {1}, you lose!", chosencards[choose].Name, chosencards[4].Name);
                         break;
                     }
                 default:
@@ -169,6 +176,31 @@ namespace HigherLower
                 }
             }
         }
-    }
+        static void BankBets()
+        {
+            string input = Console.ReadLine();
 
+            if (!int.TryParse(input, out int bet))
+            {
+                Console.WriteLine("1, 5, 25, 50, 100...?");
+                BankBets();
+            }
+            else
+            {
+                switch (bet)
+                {
+                    case 1:
+                    case 5:
+                    case 25:
+                    case 50:
+                    case 100:
+                        break;
+                    default:
+                        Console.WriteLine("Wrong answer, try again");
+                        BankBets();
+                        break;
+                }
+            }
+        }
+    }
 }
