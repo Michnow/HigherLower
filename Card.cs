@@ -16,10 +16,13 @@ namespace HigherLower
         public Suit Suit { get; set; }
         public int Value { get; set; }
 
-        public Card(Suit suit, int value)
+        public string Name { get; set; }
+
+        public Card(Suit suit, int value, string name)
         {
             Suit = suit;
             Value = value;
+            Name = name;
         }
 
     }

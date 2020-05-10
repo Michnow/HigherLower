@@ -11,7 +11,7 @@ namespace HigherLower
         static string lh;
         static int choose;
 
-        static void Main(string[] args)
+        static void Main()
         {
             Game();
         }
@@ -19,21 +19,40 @@ namespace HigherLower
         {
             for (int i = 1; i < 13; i++)
             {
-                cards.Add(new Card(Suit.Clubs, i));
-                cards.Add(new Card(Suit.Diamonds, i));
-                cards.Add(new Card(Suit.Hearts, i));
-                cards.Add(new Card(Suit.Spades, i));
+                cards.Add(new Card(Suit.Clubs, i, i.ToString()));
+                cards.Add(new Card(Suit.Diamonds, i, i.ToString()));
+                cards.Add(new Card(Suit.Hearts, i, i.ToString()));
+                cards.Add(new Card(Suit.Spades, i, i.ToString()));
             }
         }
-        static void ShufflerChoser()
+        static void Shuffler()
         {
             var shuffledcards = cards.OrderBy(a => Guid.NewGuid()).ToList(); //cards shuffling
             for (int i = 0; i < 5; i++)
             {
-                chosencards.Add(new Card(shuffledcards[i].Suit, shuffledcards[i].Value)); // writing cards to a new class
+                chosencards.Add(new Card(shuffledcards[i].Suit, shuffledcards[i].Value, shuffledcards[i].Name)); // writing cards to a new class
                 //Console.WriteLine(shuffledcards[i].Value + " + " + shuffledcards[i].Suit);
                 shuffledcards.Remove(shuffledcards[i]); // removing cards
+
+                switch (chosencards[i].Name)
+                {
+                    case "1":
+                        chosencards[i].Name = "Ace";
+                        break;
+                    case "11":
+                        chosencards[i].Name = "Jack";
+                        break;
+                    case "12":
+                        chosencards[i].Name = "Queen";
+                        break;
+                    case "13":
+                        chosencards[i].Name = "King";
+                        break;
+                    default:
+                        break;
+                }
             }
+
         }
         static void Game()
         {
@@ -42,11 +61,11 @@ namespace HigherLower
             Console.WriteLine("\nIf you choose correctly, you win, if not - you lose!\n");
 
             NewDeck();
-            ShufflerChoser();
+            Shuffler();
 
-            Console.WriteLine("1: {0} {1}", chosencards[1].Value.ToString(), chosencards[1].Suit);
-            Console.WriteLine("2: {0} {1}", chosencards[2].Value.ToString(), chosencards[2].Suit);
-            Console.WriteLine("3: {0} {1}", chosencards[3].Value.ToString(), chosencards[3].Suit);
+            Console.WriteLine("1: {0} {1}", chosencards[1].Name, chosencards[1].Suit);
+            Console.WriteLine("2: {0} {1}", chosencards[2].Name, chosencards[2].Suit);
+            Console.WriteLine("3: {0} {1}", chosencards[3].Name, chosencards[3].Suit);
 
             CardChoose();
 
@@ -78,6 +97,9 @@ namespace HigherLower
                     {
                         break;
                     }
+                default:
+                    Again();
+                    break;
             }
         }
         static void HiLo()
